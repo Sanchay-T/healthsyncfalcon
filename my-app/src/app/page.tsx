@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { Charts } from '../components/Charts'
-import { Logo } from '../components/Logo'
-import { Input } from '../components/ui/input'
-import { Button } from '../components/ui/button'
-import { Card, CardContent } from '../components/ui/card'
+import { Logo } from '@/components/Logo'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import dynamic from 'next/dynamic'
 
-const DynamicChart = dynamic(() => import('../components/DynamicChart'), { ssr: false })
+const DynamicBarChart = dynamic(() => import('@/components/DynamicBarChart'), { ssr: false })
+const DynamicAreaChart = dynamic(() => import('@/components/DynamicAreaChart'), { ssr: false })
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null)
@@ -98,8 +98,25 @@ export default function Home() {
               <h2 className="text-2xl font-bold mb-4">Charts</h2>
               {analysisResult.charts.map((chart: any, index: number) => (
                 <div key={index} className="mb-8">
-                  <h3 className="text-xl font-semibold mb-2">{chart.title}</h3>
-                  <DynamicChart type={chart.chart_type} data={chart.data} />
+                  {chart.chart_type === 'bar' && (
+                    <DynamicBarChart
+                      chartData={chart.data}
+                      title={chart.title}
+                      description={`Showing ${chart.title} data`}
+                    />
+                  )}
+                  {chart.chart_type === 'area' && (
+                    <DynamicAreaChart
+                      chartData={chart.data}
+                      title={chart.title}
+                      description={`Showing ${chart.title} data`}
+                      xAxisKey={chart.x_axis_key}
+                      dataKeys={chart.data_keys}
+                      trendPercentage={chart.trend_percentage}
+                      dateRange={chart.date_range}
+                    />
+                  )}
+                  {/* Add other chart types here as needed */}
                 </div>
               ))}
             </CardContent>

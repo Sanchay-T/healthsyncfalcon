@@ -65,7 +65,7 @@ def analyze_medical_report(report_content: str) -> dict:
     logger.info("Analyzing medical report")
 
     # Split the report into smaller chunks
-    max_chunk_size = 4000  # Adjust this value as needed
+    max_chunk_size = 1000  # Adjust this value as needed
     chunks = [
         report_content[i : i + max_chunk_size]
         for i in range(0, len(report_content), max_chunk_size)
@@ -84,15 +84,40 @@ def analyze_medical_report(report_content: str) -> dict:
                 {{"test_name": "Test Name", "value": "Abnormal Value", "reference_range": "Normal Range", "interpretation": "Brief interpretation"}}
             ],
             "charts": [
-                {{"chart_type": "bar/line/pie", "title": "Chart Title", "data": [{{"label": "Label1", "value": Value1}}, ...]}}
+                {{
+                    "chart_type": "bar",
+                    "title": "Chart Title",
+                    "data": [
+                        {{"label": "Category1", "value1": Number1, "value2": Number2, ...}},
+                        {{"label": "Category2", "value1": Number1, "value2": Number2, ...}},
+                        ...
+                    ]
+                }},
+                {{
+                    "chart_type": "area",
+                    "title": "Chart Title",
+                    "x_axis_key": "month",
+                    "data_keys": ["value1", "value2", ...],
+                    "data": [
+                        {{"month": "January", "value1": Number1, "value2": Number2, ...}},
+                        {{"month": "February", "value1": Number1, "value2": Number2, ...}},
+                        ...
+                    ],
+                    "trend_percentage": 5.2,
+                    "date_range": "January - June 2024"
+                }}
             ],
             "recommendations": ["Recommendation 1", "Recommendation 2", ...]
         }}
 
+        Ensure that the 'charts' array contains objects with 'chart_type', 'title', and 'data' fields.
+        For bar charts, the 'data' field should be an array of objects with 'label' and multiple value fields.
+        For area charts, include 'x_axis_key', 'data_keys', 'trend_percentage', and 'date_range'.
+        Only include charts if there's relevant data to visualize.
+
         Medical Report Part {i+1}/{len(chunks)}:
         {chunk}
         """
-
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {API_KEY}",
