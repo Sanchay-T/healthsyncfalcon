@@ -7,7 +7,10 @@ import aiohttp
 import logging
 import traceback
 import asyncio
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -23,7 +26,7 @@ app.add_middleware(
 )
 
 API_URL = "https://api.ai71.ai/v1/chat/completions"
-API_KEY = "ai71-api-4bfc275d-3717-456a-8026-ab8a52c86fa9"
+API_KEY = os.getenv("FALCON_API_KEY")
 
 active_websockets = set()
 
