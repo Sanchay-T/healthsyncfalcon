@@ -213,7 +213,7 @@ export default function Home() {
               <section>
                 <Card className="overflow-hidden shadow-lg">
                   <CardContent className="p-8">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-6">Charts</h2>
+                    <h2 className="text-3xl font-bold text-gray-900 mb-6">Statistics</h2>
                     {analysisResult.charts.map((chart, index) => (
                       <div key={index} className="mb-8">
                         <h3 className="text-xl font-semibold text-gray-800 mb-4">{chart.title}</h3>
